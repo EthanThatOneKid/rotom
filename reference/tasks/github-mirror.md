@@ -13,6 +13,8 @@ description: Weekly mirror of Rotom's agent memory to github.com/ethanthatonekid
 
 **Failed sync (2026-10-04 18:00 UTC)**: Same owner gap — broker reports connected account is `wollacksystems`, requested `ethanthatonekid` (not_connected). Repo itself is reachable unauthenticated (`git ls-remote` returns HEAD a310993), so it exists and is non-empty. Push attempt failed (credential rejected; broker retry hit a 429). MemFS was clean — nothing uncommitted. Next attempt: next scheduled fire (2026-10-11 18:00 UTC).
 
+**Successful sync (2026-10-11 18:00 UTC)**: Owner gap resolved — `gh repo view ethanthatonekid/rotom` succeeded. Pushed `a310993..2869124` to mirror main (weekly-sync note commits). MemFS was clean; nothing uncommitted. Remote redirect warning still present for lowercase URL, harmless. Next fire: 2026-10-18 18:00 UTC.
+
 **Known fragility**: The Letta GitHub integration flips connected owners (observed 2026-09-22/23: `wazootech` → `EthanThatOneKid` → `wollacksystems` → `EthanThatOneKid` → `wollacksystems` → `EthanThatOneKid`). When it's not on `EthanThatOneKid`, token minting for the mirror fails. If the weekly push fails with "not_connected for this owner", that's why — retry later, don't spam Ethan. Also: the token broker rate-limits (429) on rapid retries; wait 60s+ between attempts.
 
 **Mirror mechanics**: MemFS dir is a git repo; commit pending changes, then `git push mirror main`. Repo creation is NOT possible via the App token (403 — no Administration permission); the repo already exists now, so this doesn't matter. Push capability verified (test branch created+deleted on 100daysofdesign earlier).
